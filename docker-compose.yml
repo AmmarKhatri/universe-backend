@@ -1,0 +1,53 @@
+version: '3.8'
+
+services:
+  redis:
+    image: redis:latest
+    ports:
+      - 6379:6379
+    command: redis-server --save 20 1 --loglevel warning --requirepass secretpass
+    volumes:
+      - cache:/data
+
+  postgres:
+    image: postgres:latest
+    restart: always
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=secretpass
+    ports:
+      - '5432:5432'
+    volumes: 
+      - postgres:/var/lib/postgresql/data
+
+  mongod:
+    image: mongo:latest
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: secretpass
+    deploy:
+      replicas: 1
+    ports:
+      - 27017:27017
+    volumes:
+      - mongo_data:/data/db  # Mount the persistent volume
+      
+  backend:
+    container_name: express-app
+    build: .
+    ports:
+      - "8080:8080"
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    environment:
+      NODE_ENV: development
+    env_file:
+      - ".env"
+    depends_on:
+      - "mongod"
+
+volumes:
+  mongo_data:  # Define the persistent volume
+    driver: local
