@@ -11,9 +11,16 @@ async function registerUser (req, res) {
         if (password.length < 8) return res.json({ message: "Password must be atleast 8 characters." })
         await Users.create({ ...req.body, password: await bcrypt.hash(password, 5) }); //5 salt rounds
 
-        return res.json({ msg: "CREATED" })
+        return res.json({
+            error: 0,
+            message: "Created user successfully"
+        })
     } catch (error) {
-        return res.json({ msg: error })
+        console.log("Registeration error: ", error);
+        return res.json({
+            error: 1, 
+            message: "User registeration failed" 
+        })
     }
 };
 

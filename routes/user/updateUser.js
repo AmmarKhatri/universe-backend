@@ -14,6 +14,8 @@ async function updateUser(req, res) {
         // Remove unchangable values && update date
         delete req.body.email;
         delete req.body.createdAt;
+        delete req.body.studentID;
+        delete req.body.dateOfBirth;
         req.body.updatedAt = Date.now()
         // Find the user by email
         const user = await Users.findOne({ email });
@@ -26,10 +28,16 @@ async function updateUser(req, res) {
         await user.save();
 
         // Return the updated user object
-        return res.status(200).json(user);
+        return res.status(200).json({
+            error: 0,
+            message: user
+        });
     } catch (error) {
-        console.error(error);
-        return res.status(500).json({ error });
+        console.error("Update user error:", error);
+        return res.status(500).json({ 
+            error: 1,
+            message: "Could not update user" 
+        });
     }
 }
 

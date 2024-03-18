@@ -51,3 +51,6 @@ services:
 volumes:
   mongo_data:  # Define the persistent volume
     driver: local
+  cache:
+  postgres:
+    driver: local

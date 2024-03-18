@@ -2,8 +2,11 @@ const Users = require("../../models/User");
 
 async function deleteUser(req, res) {
     try {
-        const { email } = req.user;
-
+        const { email, role } = req.user;
+        //if there is a userID present, only admin can delete
+        if (req.body.userID){ 
+            
+        }
         // Find the user by email and delete it
         const deletedUser = await Users.findOneAndDelete({ email });
 

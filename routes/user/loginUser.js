@@ -6,19 +6,34 @@ async function loginUser(req, res){
         const { email, password } = req.body
 
         const user = await Users.findOne({ email })
-        if (!user) return res.json({ msg: "USER NOT FOUND" })
+        if (!user) return res.json({ 
+            error: 1,
+            message: "User Not Found"
+        })
 
         const passwordCheck = await bcrypt.compare(password, user.password);
-        if (!passwordCheck) return res.json({ msg: "WRONG PASSWORD" })
-
-        const token = jwt.sign({
+        if (!passwordCheck) return res.json({ 
+            error: 1,
+            message: "Invalid Password" 
+        })
+        //creating an access token
+        const access_token = jwt.sign({
             email,
             createdAt: new Date(),
             role: user.role,
-        }, process.env.JWTSECRET, { expiresIn: "1d" });
-
+            refresh: false
+        }, process.env.JWTSECRET, { expiresIn: "7d" });
+        //creating a refresh token
+        const refresh_token = jwt.sign({
+            email,
+            createdAt: new Date(),
+            role: user.role,
+            refresh: false
+        }, process.env.JWTSECRET, { expiresIn: "30d" });
         res.json({
-            msg: "LOGGED IN", token
+            error: 0, 
+            access_token,
+            refresh_token
         })
     } catch (error) {
         console.error(error)
