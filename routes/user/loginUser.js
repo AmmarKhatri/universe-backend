@@ -19,6 +19,7 @@ async function loginUser(req, res){
         //creating an access token
         const access_token = jwt.sign({
             email,
+            id: user._id,
             createdAt: new Date(),
             role: user.role,
             refresh: false
@@ -26,6 +27,7 @@ async function loginUser(req, res){
         //creating a refresh token
         const refresh_token = jwt.sign({
             email,
+            id: user._id,
             createdAt: new Date(),
             role: user.role,
             refresh: true
@@ -37,6 +39,10 @@ async function loginUser(req, res){
         })
     } catch (error) {
         console.error(error)
+        return res.status(500).json({
+            error: 1, 
+            message: "Internal Server Error"
+        })
     }
 };
 
