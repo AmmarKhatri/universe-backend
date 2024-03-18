@@ -10,16 +10,16 @@ const CommunitySchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    admins: {
+    moderators: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Users', // Reference to the Users model
         required: true
-    },
-    participants: {
+    }],
+    participants: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Users', // Reference to the Users model
         required: true
-    },
+    }],
     createdBy: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Users', // Reference to the Users model
