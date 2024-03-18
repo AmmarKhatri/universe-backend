@@ -28,7 +28,7 @@ async function loginUser(req, res){
             email,
             createdAt: new Date(),
             role: user.role,
-            refresh: false
+            refresh: true
         }, process.env.JWTSECRET, { expiresIn: "30d" });
         res.json({
             error: 0, 

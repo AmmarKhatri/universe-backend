@@ -19,7 +19,10 @@ async function updateUser(req, res) {
         req.body.updatedAt = Date.now()
         // Find the user by email
         const user = await Users.findOne({ email });
-        if (!user) return res.json({ msg: "USER NOT FOUND" });
+        if (!user) return res.status(404).json({ 
+            error: 1,
+            message: "User Not Found" 
+        });
 
         // Update the user object with fields from the request body
         Object.assign(user, req.body);
@@ -30,7 +33,8 @@ async function updateUser(req, res) {
         // Return the updated user object
         return res.status(200).json({
             error: 0,
-            message: user
+            message: "Updated user successfully",
+            user
         });
     } catch (error) {
         console.error("Update user error:", error);

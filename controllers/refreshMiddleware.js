@@ -1,11 +1,14 @@
 const jwt = require("jsonwebtoken");
 
-async function authMiddleware(req, res, next) {
+async function refreshMiddleware(req, res, next) {
   // Get the token from the request header
   const token = req.headers.authorization // Bearer <token>
   // Check if token is not present
   if (!token) {
-    return res.status(403).send({ message: "An access token is required for authentication" });
+    return res.status(403).send({
+        error: 1, 
+        message: "A token is required for authentication" 
+    });
   }
 
   try {
@@ -14,7 +17,12 @@ async function authMiddleware(req, res, next) {
     console.log(token)
     const user = jwt.verify(token.split(" ")[1], process.env.JWTSECRET);
     //check if access token is used
-    if (user.token)
+    if (!user.refresh){
+        return res.status(401).send({
+            error: 1, 
+            message: "Please provide a refresh token" 
+        });
+    }
     req.user = user;
   } catch (err) {
     // Invalid
@@ -23,4 +31,4 @@ async function authMiddleware(req, res, next) {
   next();
 }
 
-module.exports = authMiddleware;
+module.exports = refreshMiddleware;

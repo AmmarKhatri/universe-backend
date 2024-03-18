@@ -4,11 +4,21 @@ async function getUser(req, res) {
     try {
         const { email } = req.user
         const user = await Users.findOne({ email }).select('-password -__v -_id')
-        if (!user) return res.json({ msg: "USER NOT FOUND" })
-        return res.status(200).json(user)
+        if (!user) return res,statu(404).json({
+            error: 1, 
+            message: "User not found" 
+        })
+        return res.status(200).json({
+            error: 0,
+            message: "User fetched successfully",
+            user
+        })
     }catch(error){
-        console.error(error)
-        return res.status(500).json({error})
+        console.error("Fetch user error:", error);
+        return res.status(500).json({
+            error:1,
+            message: "Internal Server Error"
+        })
     }
 }
 
