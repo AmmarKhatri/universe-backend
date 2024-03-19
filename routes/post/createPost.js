@@ -9,7 +9,7 @@ async function createPost(req, res) {
         if (community.isArchived) {
             return res.status(403).json({ 
                 error: 1,
-                message: "Community does not exist" 
+                message: "Community does not exist"
             })
         }
         //performing post creation compatability checks 
@@ -17,9 +17,9 @@ async function createPost(req, res) {
             return res.status(403).json({ 
                 error: 1,
                 message: "Must join community to post" 
-            })   
+            })
         }
-        const post = await Posts.create({ ...req.body, 
+        await Posts.create({ ...req.body, 
             createdBy: id,
             repostedBy: [id]
         });
