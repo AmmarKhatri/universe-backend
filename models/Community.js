@@ -20,24 +20,20 @@ const CommunitySchema = new mongoose.Schema({
         ref: 'Users',
         required: true
     }],
+    attributes: { // any sort of additional attributes
+        type: JSON,
+        required: false
+    },
     createdBy: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Users',
         required: true
     },
-    createdAt: {
-        type: Date,
-        default: Date.now
-    },
-    updatedAt: {
-        type: Date,
-        default: Date.now
-    },
     isArchived: {
         type: Boolean,
         default: false
     }
-});
+}, {timestamps: true});
 
 const Community = mongoose.model('Communities', CommunitySchema);
 

@@ -32,15 +32,7 @@ const UserSchema = new mongoose.Schema({
         type: JSON,
         required: false
     },
-    createdAt: {
-        type: Date,
-        default: Date.now
-    },
-    updatedAt: {
-        type: Date,
-        default: Date.now
-    },
-});
+}, { timestamps: true });
 
 const Users = mongoose.model('Users', UserSchema);
 

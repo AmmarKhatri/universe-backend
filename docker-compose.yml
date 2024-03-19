@@ -47,7 +47,7 @@ services:
       - ".env"
     depends_on:
       - "mongod"
-
+      - "postgres"
 volumes:
   mongo_data:  # Define the persistent volume
     driver: local
