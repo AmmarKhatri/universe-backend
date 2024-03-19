@@ -20,8 +20,8 @@ console.log("String =>", conString);
 })()
 //compiling routers
 const authRouter = require('./routes/user/router');
-const ticketRouter = require('./routes/tickets/router');
-app.use('/ticket', ticketRouter);
+const communityRouter = require('./routes/community/router');
+app.use('/community', communityRouter);
 app.use('/user', authRouter);
 //defaulting unknown routes to 404 (Not found)
 app.use(function (req, res, next) {

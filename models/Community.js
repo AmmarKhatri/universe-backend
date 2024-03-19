@@ -12,17 +12,17 @@ const CommunitySchema = new mongoose.Schema({
     },
     moderators: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Users', // Reference to the Users model
+        ref: 'Users',
         required: true
     }],
     participants: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Users', // Reference to the Users model
+        ref: 'Users',
         required: true
     }],
     createdBy: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Users', // Reference to the Users model
+        ref: 'Users',
         required: true
     },
     createdAt: {
@@ -32,9 +32,13 @@ const CommunitySchema = new mongoose.Schema({
     updatedAt: {
         type: Date,
         default: Date.now
+    },
+    isArchived: {
+        type: Boolean,
+        default: false
     }
 });
 
-const Communities = mongoose.model('Communities', CommunitySchema);
+const Community = mongoose.model('Communities', CommunitySchema);
 
-module.exports = Communities;
+module.exports = Community;
