@@ -10,7 +10,7 @@ async function archiveCommunity(req, res) {
             });
         }
 
-        const { comm_id } = req.body; // The community's ID to be archived
+        const comm_id = req.params.id; // The community's ID to be archived
 
         // Use findOneAndUpdate to set the isArchived flag to true
         const updatedCommunity = await Community.findOneAndUpdate(

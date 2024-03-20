@@ -3,7 +3,7 @@ const Community = require("../../models/Community");
 async function joinCommunity(req, res) {
     try {
         const { id } = req.user; // Assuming this is the user's ID
-        const { comm_id } = req.body; // The community's ID that the user wants to join
+        const comm_id = req.params.id; // The community's ID that the user wants to join
         
         const updatedCommunity = await Community.findOneAndUpdate(
             { _id: comm_id },
@@ -25,7 +25,6 @@ async function joinCommunity(req, res) {
         return res.status(200).json({
             error: 0,
             message: "Successfully joined the community",
-            community: updatedCommunity // Optionally return the updated community object
         });
 
     } catch (error) {

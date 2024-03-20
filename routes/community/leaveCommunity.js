@@ -3,12 +3,13 @@ const Community = require("../../models/Community");
 async function leaveCommunity(req, res) {
     try {
         const { id } = req.user; 
-        const { comm_id } = req.body; 
+        const comm_id = req.params.id; 
         
         const updatedCommunity = await Community.findOneAndUpdate(
             { _id: comm_id },
             {
-                $pull: { participants: id }, 
+                $pull: { moderators: id }, //leave as moderator
+                $pull: { participants: id }, //leave as participant
                 $set: { updatedAt: Date.now() } 
             },
             { new: true } // Returns the document after update was applied
