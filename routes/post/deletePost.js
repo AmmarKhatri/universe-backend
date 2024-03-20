@@ -1,61 +1,40 @@
-const Users = require("../../models/User");
+const Posts = require("../../models/Post");
+const PostCounter = require("../../models/PostCounter");
 
-async function deleteUser(req, res) {
+async function deletePost(req, res) {
     try {
-        const { email, role } = req.user;
+        const post_id = req.params.id;
+        const {id, role} = req.user;
         //if there is a userID present, only admin can delete
-        if (req.body.id){ 
-            //fetch user
-            const user = await Users.findOne({ _id: req.body.id }).select('-password -__v -_id')
-            if (!user){
-                return res.status(404).json({
-                    error: 1,
-                    message: "User Not Found"
-                })
-            }
-            if(role == 'SUPERADMIN'){
-                await Users.findOneAndDelete({ email });
-                return res.status(200).json({ 
-                    error:0,
-                    message: "User deleted successfully" 
-                });
-            } else if (role == 'ADMIN' && (user.role != 'ADMIN' || user.role != 'SUPERADMIN')) {
-                await Users.findOneAndDelete({ email });
-                return res.status(200).json({ 
-                    error:0,
-                    message: "User deleted successfully" 
-                });
-            } else {
-                return res.status(401).json({ 
-                    error:1,
-                    message: "Unauthorized: Cannot delete user" 
-                });
-            }
-        } else {
-            // Find the user by email and delete it
-            const deletedUser = await Users.findOneAndDelete({ email });
-
-            // If user is not found
-            if (!deletedUser) {
-                return res.status(404).json({ 
-                    error: 1,
-                    message: "User not found" 
-                });
-            }
-
-            // Return success message
-            return res.status(200).json({
-                error: 0, 
-                message: "User deleted successfully" 
+        const post = await Posts.findOne({ _id: post_id });
+        // If user is not found
+        if (!post) {
+            return res.status(404).json({ 
+                error: 1,
+                message: "Post not found" 
             });
         }
+        //owner - moderators - admin - superadmins only delete
+        if (!(post.createdBy == id || post.moderators.includes(id) || role == 'ADMIN' || role == 'SUPERADMIN')){
+            return res.status(403).json({
+                error: 1, 
+                message: "Unauthorized: Cannot perform action." 
+            })
+        }
+        await Posts.deleteOne({ _id: post_id });
+        await PostCounter.delete({postId: post_id})
+        // Return success message
+        return res.status(200).json({
+            error: 0, 
+            message: "Post deleted successfully" 
+        });
     } catch(error) {
         console.error(error);
         return res.status(500).json({ 
             error: 1,
-            message: error 
+            message: "Internal Server Error" 
         });
     }
 }
 
-module.exports = deleteUser;
+module.exports = deletePost;
