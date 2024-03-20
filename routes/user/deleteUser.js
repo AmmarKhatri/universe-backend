@@ -5,8 +5,14 @@ async function deleteUser(req, res) {
         const { email, role } = req.user;
         //if there is a userID present, only admin can delete
         if (req.body.id){ 
-            //fetch user by role
-            const user = await Users.findOne({ email }).select('-password -__v -_id')
+            //fetch user
+            const user = await Users.findOne({ _id: req.body.id }).select('-password -__v -_id')
+            if (!user){
+                return res.status(404).json({
+                    error: 1,
+                    message: "User Not Found"
+                })
+            }
             if(role == 'SUPERADMIN'){
                 await Users.findOneAndDelete({ email });
                 return res.status(200).json({ 
@@ -31,15 +37,24 @@ async function deleteUser(req, res) {
 
             // If user is not found
             if (!deletedUser) {
-                return res.status(404).json({ msg: "User not found" });
+                return res.status(404).json({ 
+                    error: 1,
+                    message: "User not found" 
+                });
             }
 
             // Return success message
-            return res.status(200).json({ msg: "User deleted successfully" });
+            return res.status(200).json({
+                error: 0, 
+                message: "User deleted successfully" 
+            });
         }
     } catch(error) {
         console.error(error);
-        return res.status(500).json({ error: error });
+        return res.status(500).json({ 
+            error: 1,
+            message: error 
+        });
     }
 }
 

@@ -2,9 +2,8 @@ const Community = require("../../models/Community");
 
 async function getCommunityById(req, res) {
     try {
-        const { id } = req.body
-        const community = await Community.findOne({ id }).populate('Users')
-        if (!user) return res.status(404).json({
+        const community = await Community.findOne({ _id: req.params.id }).populate('Users')
+        if (!community) return res.status(404).json({
             error: 1, 
             message: "Community not found" 
         })

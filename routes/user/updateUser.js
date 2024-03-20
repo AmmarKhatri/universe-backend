@@ -13,10 +13,6 @@ async function updateUser(req, res) {
 
         // Remove unchangable values && update date
         delete req.body.email;
-        delete req.body.createdAt;
-        delete req.body.studentID;
-        delete req.body.dateOfBirth;
-        req.body.updatedAt = Date.now()
         // Find the user by email
         const user = await Users.findOne({ email });
         if (!user) return res.status(404).json({ 

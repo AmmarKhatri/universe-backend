@@ -11,7 +11,8 @@ async function createCommunity (req, res) {
             });
             return res.status(201).json({ 
                 error: 0,
-                message: "Created Community Successfully" 
+                message: "Created Community Successfully",
+                community
             })
         }
     } catch (error) {

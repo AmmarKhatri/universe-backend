@@ -14,8 +14,13 @@ async function authMiddleware(req, res, next) {
     console.log(token)
     const user = jwt.verify(token.split(" ")[1], process.env.JWTSECRET);
     //check if access token is used
-    if (user.token)
-    req.user = user;
+    if (user.refresh){
+      return res.status(401).send({
+          error: 1, 
+          message: "Please provide an access token" 
+      });
+    }
+    req.user = user
   } catch (err) {
     // Invalid
     return res.status(401).send({ message: "Invalid Token" });

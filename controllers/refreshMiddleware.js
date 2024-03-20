@@ -16,7 +16,7 @@ async function refreshMiddleware(req, res, next) {
     const token = req.headers.authorization;
     console.log(token)
     const user = jwt.verify(token.split(" ")[1], process.env.JWTSECRET);
-    //check if access token is used
+    //check if refresh token is used
     if (!user.refresh){
         return res.status(401).send({
             error: 1, 
