@@ -22,11 +22,6 @@ const PostSchema = new mongoose.Schema({
         ref: 'Users',
         required: true
     },
-    repostedBy: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Users',
-        required: true
-    }],
     attributes: { // any sort of additional attributes
         type: JSON,
         required: false

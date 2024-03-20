@@ -1,7 +1,7 @@
 var createError = require('http-errors');
 var express = require('express');
 //intialized mongoose as Mongo ORM
-const { Sequelize } = require('sequelize');
+const {Sequelize} = require('sequelize')
 const mongoose = require('mongoose');
 //intialized express
 var app = express();
@@ -19,7 +19,6 @@ console.log("String =>", conString);
         console.error('Unable to connect to the database:', error);
     }
 })()
-// PostgreSQL connection with Sequelize
 const sequelize = new Sequelize(process.env.PG_DB, process.env.PG_USER, process.env.PG_PASSWORD, {
     host: process.env.PG_HOST,
     port: process.env.PG_PORT,
@@ -43,8 +42,10 @@ const sequelize = new Sequelize(process.env.PG_DB, process.env.PG_USER, process.
 //compiling routers
 const authRouter = require('./routes/user/router');
 const communityRouter = require('./routes/community/router');
-app.use('/communities', communityRouter);
+const postRouter = require('./routes/post/router')
 app.use('/users', authRouter);
+app.use('/communities', communityRouter);
+app.use('/posts', postRouter);
 //defaulting unknown routes to 404 (Not found)
 app.use(function (req, res, next) {
     next(createError(404));
