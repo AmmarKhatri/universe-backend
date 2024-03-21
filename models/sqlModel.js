@@ -16,7 +16,8 @@ const sequelize = new Sequelize(process.env.PG_DB, process.env.PG_USER, process.
 const models = {
     PostCounter: require('./PostCounter')(sequelize, Sequelize.DataTypes),
     PostImpression: require('./PostImpression')(sequelize, Sequelize.DataTypes),
-    CommentImpression: require('./CommentImpression')(sequelize, Sequelize.DataTypes)
+    CommentImpression: require('./CommentImpression')(sequelize, Sequelize.DataTypes),
+    CommentCounter: require('./CommentCounter')(sequelize, Sequelize.DataTypes),
 };
 
 module.exports = models;

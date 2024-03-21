@@ -43,9 +43,11 @@ const sequelize = new Sequelize(process.env.PG_DB, process.env.PG_USER, process.
 const authRouter = require('./routes/user/router');
 const communityRouter = require('./routes/community/router');
 const postRouter = require('./routes/post/router')
+const commentRouter = require('./routes/comment/router')
 app.use('/users', authRouter);
 app.use('/communities', communityRouter);
 app.use('/posts', postRouter);
+app.use('/comments', commentRouter);
 //defaulting unknown routes to 404 (Not found)
 app.use(function (req, res, next) {
     next(createError(404));
