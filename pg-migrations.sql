@@ -6,9 +6,11 @@ CREATE TABLE post_counter (
 );
 
 CREATE TABLE comment_counter (
-    comment_id varchar(255) PRIMARY KEY,
+    post_id varchar(255),
+    comment_id varchar(255),
     likes int,
-    dislikes int
+    dislikes int,
+    PRIMARY KEY (post_id, comment_id)
 );
 
 CREATE TABLE post_impression (
