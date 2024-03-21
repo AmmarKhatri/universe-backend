@@ -4,9 +4,9 @@ async function getUser(req, res) {
     try {
         const { email } = req.user
         const user = await Users.findOne({ email }).select('-password -__v -_id')
-        if (!user) return res,statu(404).json({
-            error: 1, 
-            message: "User not found" 
+        if (!user) return res.status(404).json({
+            error: 1,
+            message: "User Not Found" 
         })
         return res.status(200).json({
             error: 0,
