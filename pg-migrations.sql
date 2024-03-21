@@ -5,6 +5,12 @@ CREATE TABLE post_counter (
     comments int
 );
 
+CREATE TABLE comment_counter (
+    comment_id varchar(255) PRIMARY KEY,
+    likes int,
+    dislikes int
+);
+
 CREATE TABLE post_impression (
     post_id varchar(255),
     user_id varchar(255),
