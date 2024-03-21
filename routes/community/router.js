@@ -9,10 +9,12 @@ const getCommunityById = require("./getCommunityById");
 const joinCommunity = require("./joinCommunity");
 const leaveCommunity = require("./leaveCommunity");
 const archiveCommunity = require("./archiveCommunity");
+const getPaginatedCommunityPosts = require("./getPaginatedCommunityPosts");
 
 router.post("/create", authMiddleware, createCommunity);
 router.get("/:id", authMiddleware, getCommunityById);
 router.get("/", authMiddleware, getAllCommunities);
+router.get("/:id/posts", authMiddleware, getPaginatedCommunityPosts);
 router.put("/:id/join", authMiddleware, joinCommunity);
 router.put("/:id/leave", authMiddleware, leaveCommunity);
 router.delete("/:id", authMiddleware, archiveCommunity);

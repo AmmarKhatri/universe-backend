@@ -1,12 +1,10 @@
 const Community = require("../../models/Community");
 const Posts = require("../../models/Post");
-const PostCounter = require("../../models/PostCounter");
-const Users = require("../../models/User");
 
 async function getSinglePost(req, res) {
     try {
         const post_id = req.params.id;
-        const { id } = req.user;
+        const { id, role } = req.user;
         //if there is a userID present, only admin can delete
         const post = await Posts.findOne({ _id: post_id });
         // If user is not found
@@ -40,4 +38,4 @@ async function getSinglePost(req, res) {
     }
 }
 
-module.exports = deletePost;
+module.exports = getSinglePost;

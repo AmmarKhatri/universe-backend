@@ -1,5 +1,5 @@
 const Posts = require("../../models/Post");
-const PostCounter = require("../../models/PostCounter");
+const {PostCounter} = require('../../models/sqlModel')
 
 async function deletePost(req, res) {
     try {
@@ -22,7 +22,7 @@ async function deletePost(req, res) {
             })
         }
         await Posts.deleteOne({ _id: post_id });
-        await PostCounter.delete({postId: post_id})
+        await PostCounter.destroy({ where: { postId: post_id } });
         // Return success message
         return res.status(200).json({
             error: 0, 
