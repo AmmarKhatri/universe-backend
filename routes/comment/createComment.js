@@ -39,7 +39,7 @@ async function createComment(req, res) {
     postCounter.increment("comments", { by: 1 })
 
     // create CommentCounter in pg db
-    await CommentCounter.create({ commentId: comment._id.toString(), likes: 0, dislikes: 0 });
+    await CommentCounter.create({ postId: post_id, commentId: comment._id.toString(), likes: 0, dislikes: 0 });
     
     return res.status(201).json({
       error: 0,

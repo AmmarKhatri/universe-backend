@@ -24,8 +24,7 @@ async function leaveCommunity(req, res) {
         
         return res.status(200).json({
             error: 0,
-            message: "Successfully left the community",
-            community: updatedCommunity // Optionally return the updated community object
+            message: "Successfully left the community"
         });
 
     } catch (error) {
