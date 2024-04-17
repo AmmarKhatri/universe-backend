@@ -184,6 +184,7 @@ services:
     depends_on:
       - "mongod"
       - "postgres"
+      - "es01"
 volumes:
   mongo_data:  # Define the persistent volume
     driver: local

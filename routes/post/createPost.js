@@ -1,6 +1,7 @@
 const Community = require("../../models/Community");
 const Posts= require("../../models/Post")
 const {PostCounter} = require('../../models/sqlModel')
+const { client: esClient, getEmbeddingsUsingBERT } = require("../../utils/helpers");
 async function createPost(req, res) {
     try {
         const { id, role } = req.user;
@@ -24,6 +25,27 @@ async function createPost(req, res) {
             community: comm_id,
             createdBy: id,
         });
+
+        // create vector embedding for the post
+        const embedding = await getEmbeddingsUsingBERT(req.app.locals.model, post.title + ' ' + post.description);
+        console.log("POST => ", post)
+        console.log("EMBEDDING => ", embedding)
+        // add the document to elastic search
+        await esClient.index({
+            index: "posts",
+            id: post._id.toString(),
+            body: {
+                title: post.title,
+                description: post.description,
+                community: post.community.toString(),
+                createdBy: post.createdBy.toString(),
+                createdAt: post.createdAt,
+                updatedAt: post.updatedAt,
+                vector: embedding
+            },
+        });
+
+
         // create a counter entry into our pg db as well
         PostCounter.create({ //no need to await this
             postId: post._id.toString(),
