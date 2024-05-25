@@ -3,7 +3,7 @@ var express = require("express");
 require("@tensorflow/tfjs");
 const use = require("@tensorflow-models/universal-sentence-encoder");
 require("dotenv").config();
-
+const cors = require('cors')
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 //intialized mongoose as Mongo ORM
 const { Sequelize } = require("sequelize");
@@ -13,6 +13,7 @@ var app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(cors())
 // connect to mongo db
 let conString =
   "mongodb://" +
