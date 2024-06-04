@@ -2,7 +2,7 @@ const Community = require("../../models/Community");
 
 async function getAllCommunities(req, res) {
     try {
-        const communities = await Community.find()
+        const communities = await Community.find().populate('moderators').populate("createdBy");
         if (communities.length == 0) return res.status(404).json({
             error: 1, 
             message: "No communities to show" 

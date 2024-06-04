@@ -19,5 +19,5 @@ router.get("/", authMiddleware, getAllCommunities);
 router.get("/:id/posts", authMiddleware, getPaginatedCommunityPosts);
 router.put("/:id/join", authMiddleware, joinCommunity);
 router.put("/:id/leave", authMiddleware, leaveCommunity);
-router.delete("/:id", authMiddleware, archiveCommunity);
+router.put("/:id", authMiddleware, archiveCommunity);
 module.exports = router;

@@ -4,6 +4,7 @@ async function archiveCommunity(req, res) {
     try {
         // Check if the user has the SUPERADMIN role
         if (req.user.role !== 'SUPERADMIN') {
+            console.log("Unauthorized: Only SUPERADMINs can archive communities.")
             return res.status(403).json({
                 error: 1,
                 message: "Unauthorized: Only SUPERADMINs can archive communities."
@@ -11,7 +12,7 @@ async function archiveCommunity(req, res) {
         }
 
         const comm_id = req.params.id; // The community's ID to be archived
-
+        console.log("Archiving community with ID:", comm_id);
         // Use findOneAndUpdate to set the isArchived flag to true
         const updatedCommunity = await Community.findOneAndUpdate(
             { _id: comm_id },
