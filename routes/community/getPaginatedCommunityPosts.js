@@ -25,10 +25,15 @@ async function getPaginatedCommunityPosts(req, res) {
             });
         }
 
-        // Fetch paginated posts for a community
         const posts = await Posts.find({ community: comm_id })
-                                 .skip(offset)
-                                 .limit(limit);
+                            .populate({
+                                path: "createdBy",
+                                select: "_id username"
+                            })
+                            .sort({updatedAt: -1})
+                            .skip(offset)
+                            .limit(limit);
+
         const totalRecords = await Posts.countDocuments({ community: comm_id });
 
         // Return paginated posts

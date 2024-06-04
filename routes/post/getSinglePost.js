@@ -6,7 +6,10 @@ async function getSinglePost(req, res) {
         const post_id = req.params.id;
         const { id, role } = req.user;
         //if there is a userID present, only admin can delete
-        const post = await Posts.findOne({ _id: post_id });
+        const post = await Posts.findOne({ _id: post_id }).populate({
+            path: "createdBy",
+            select: "_id username"
+        });;
         // If user is not found
         if (!post) {
             return res.status(404).json({ 
